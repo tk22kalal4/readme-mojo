@@ -54,6 +54,40 @@
     .lecture-card {
       position: relative;
     }
+
+    .popup-controls {
+      display: flex;
+      gap: 8px;
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      z-index: 20;
+    }
+
+    .refresh-popup, .close-popup {
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .refresh-popup:hover, .close-popup:hover {
+      background: rgba(0, 0, 0, 0.9);
+      transform: scale(1.1);
+    }
+
+    .refresh-popup:active {
+      transform: rotate(180deg) scale(1.1);
+      transition: transform 0.5s ease;
+    }
   </style>
 <script src="../../../access-control.js"></script>
   <script src="../../../block.js"></script>
@@ -273,7 +307,12 @@
       popup.className = 'video-popup';
       popup.innerHTML = `
         <div class="video-popup-content">
-          <button class="close-popup" onclick="closeVideo(this)">&times;</button>
+          <div class="popup-controls">
+            <button class="refresh-popup" onclick="refreshVideo(this)" title="Refresh Video">
+              <i class="fas fa-sync-alt"></i>
+            </button>
+            <button class="close-popup" onclick="closeVideo(this)" title="Close Video">&times;</button>
+          </div>
           <h2 class="video-title">${title}</h2>
           <div class="iframe-container">
             <iframe src="${url}" allowfullscreen></iframe>
@@ -293,6 +332,16 @@
     function closeVideo(button) {
       const popup = button.closest('.video-popup');
       document.body.removeChild(popup);
+    }
+
+    function refreshVideo(button) {
+      const popup = button.closest('.video-popup');
+      const iframe = popup.querySelector('iframe');
+      const currentSrc = iframe.src;
+      iframe.src = '';
+      setTimeout(() => {
+        iframe.src = currentSrc;
+      }, 100);
     }
 
     function downloadVideo(streamUrl) {
