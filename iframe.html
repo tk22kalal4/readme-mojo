@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Embedded: app.afrahtafreeh.site</title>
+  <style>
+    html,body {
+      height:100%;
+      margin:0;
+      background:#111;
+    }
+    /* container so you can add a small header if required */
+    .frame-wrap {
+      width:100vw;
+      height:100vh;
+      overflow:hidden;
+    }
+    iframe {
+      width:100%;
+      height:100%;
+      border:0;
+      display:block;
+    }
+    /* fallback notice */
+    .notice {
+      position:fixed;
+      left:12px;
+      bottom:12px;
+      background:rgba(0,0,0,0.6);
+      color:#fff;
+      padding:10px 12px;
+      border-radius:8px;
+      font-family:system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      font-size:13px;
+      z-index:9999;
+      display:none;
+    }
+    .notice a { color:#9be; text-decoration:underline; }
+  </style>
+</head>
+<body>
+  <div class="frame-wrap">
+    <iframe id="siteFrame"
+            src="https://app.afrahtafreeh.site/"
+            title="Embedded site"
+            allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade"
+            sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-modals"
+    ></iframe>
+  </div>
+
+  <div id="notice" class="notice">
+    Embedding blocked by the remote site. <a id="openLink" href="https://app.afrahtafreeh.site/" target="_blank" rel="noopener">Open in a new tab</a>.
+  </div>
+
+  <script>
+    (function(){
+      const iframe = document.getElementById('siteFrame');
+      const notice = document.getElementById('notice');
+      const openLink = document.getElementById('openLink');
+
+      // If iframe loads successfully this will fire.
+      let loaded = false;
+      iframe.addEventListener('load', () => {
+        loaded = true;
+        // hide notice if previously shown
+        notice.style.display = 'none';
+      });
+
+      // After a short timeout, if the frame hasn't reported load, show fallback.
+      // (Cross-origin frames can still fire load; X-Frame-Options denied may not.)
+      setTimeout(() => {
+        if (!loaded) {
+          notice.style.display = 'block';
+        }
+      }, 2500);
+
+      // Extra: If the embed is blocked by browser (X-Frame-Options/CSP),
+      // some browsers show a console error — we can't read that from JS,
+      // so the timeout is a practical fallback.
+    })();
+  </script>
+</body>
+</html>
