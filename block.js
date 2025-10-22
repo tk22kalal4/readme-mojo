@@ -1,5 +1,3 @@
-// Content protection script - prevents copying and downloading
-// OPTIMIZED TO NOT INTERFERE WITH GOOGLE AUTO ADS
 
 // Disable text selection globally
 document.addEventListener('selectstart', function(e) {
