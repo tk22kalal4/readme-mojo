@@ -15,10 +15,11 @@
      crossorigin="anonymous"></script>
 </head>
 <body>
-<script>
-      // Initialize access control for protected page
+    <script>
+      // PWA-only access - blocks browser users, allows bots and PWA
+      // Google Ads bots are allowed for ad optimization
       if (!accessControl.initProtectedPage()) {
-        throw new Error('Access denied - redirecting to index.html');
+        throw new Error("Access denied - Please install the app");
       }
     </script>
   <header>
